@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import Player from './Player';
-import AddPlayerForm from './AddPlayerForm';
+import Player from '../Player/Player';
+import AddPlayerForm from '../AddPlayerForm';
 import Axios from 'axios'
 
 
@@ -14,29 +14,38 @@ export default function Scoreboard() {
     { id: 4, name: "Lisa", score: 43 },
   ])
   
+// reset onslick handler
+function resetButtonHandler() {
+  const resetScoresList = players.map((player)=>{
+    player.score = 0;
+    return player;
+  })
+  setPlayers(resetScoresList)
+}
 
+function rendomizeButtonHandler() {
+  const rendomizedList = players.map((player)=>{
+    player.score = Math.round(Math.random() * (101 - 0) + 0)
+    return player;
+  })
+  setPlayers(rendomizedList)
+}
 
  //change score
  function incrementScore(playerId) {
-  console.log('player id is: ',playerId)
     const updatedList = players.map((player)=>{
       if(player.id === playerId) {
         player.score = player.score + 1
-        console.log('MODIFIED SCORE',player)
       }
       return player;
     })
-    console.log('updatedList ' , updatedList )
     setPlayers(updatedList)
 }
 
   //add new player through AddPlayerForm
   function addNewPlayer(name) {
-    console.log('AND PLAYERS NOW', players)
     if(!name) {
-      console.log('please aad the name')
     } else {
-      console.log('I will adding a new player to the array',{name})
       setPlayers([...players, {
         name:name,
         score: 0,
@@ -55,7 +64,7 @@ export default function Scoreboard() {
   }
 
   function change_sorting(event) {
-    console.log("new sort order:", event.target.value);
+   // console.log("new sort order:", event.target.value);
     set_sort_by(event.target.value);
   }
 
@@ -74,6 +83,8 @@ export default function Scoreboard() {
               <option value="score">Sort by score</option>
               <option value="name">Sort by name</option>
             </select>
+            <button onClick={resetButtonHandler}>Reset scores</button>
+            <button onClick={rendomizeButtonHandler}>Rendomize</button>
         </p>
       <ul>
         {sortedPlayers.map((player,index)=>{
@@ -90,22 +101,3 @@ export default function Scoreboard() {
       </div>
   )
 }
-
-
-
-
-
-
-
-
-
-//console.log('players_sorted',players_sorted)
-  
-  // const URL = 'https://restcountries.eu/rest/v2/all'
-  //   useEffect(() => {
-  //     async function recievedData() {
-  //       const countriesData = await Axios.get(URL);
-  //       setCountries(countriesData.data)
-  //     }
-  //     recievedData()
-  //   }, [])

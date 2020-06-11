@@ -9,6 +9,7 @@ export default function AddPlayerForm(props) {
 
   function buttonHandler() {
     props.addNewPlayer(newPlayer)
+    set_newPlayer('')
   }
 
   return <div className="AddPlayerForm">
